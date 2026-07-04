@@ -1,0 +1,40 @@
+# ROS 2 / colcon generated output
+build/
+install/
+log/
+
+# Local flight logs and runtime logs
+logs/
+*.BIN
+*.ulg
+*.bag
+*.db3
+
+# Python generated files
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Local editor and OS noise
+/.vscode/
+/.idea/
+*~
+.DS_Store
+
+# Gradle / Java generated output
+Micro-XRCE-DDS-Gen/.gradle/
+Micro-XRCE-DDS-Gen/build/
+Micro-XRCE-DDS-Gen/install/
+Micro-XRCE-DDS-Gen/log/
+Micro-XRCE-DDS-Gen/thirdparty/IDL-Parser/.gradle/
+Micro-XRCE-DDS-Gen/thirdparty/IDL-Parser/build/
+
+# Package-local generated output
+src/ardupilot/build/
+src/ardupilot/modules/ChibiOS/doc/build/
+src/ardupilot/modules/CrashDebug/CrashCatcher/CppUTest/build/
+src/ardupilot/modules/CrashDebug/mri/CppUTest/build/
+src/misc_nodes/build/
+src/misc_nodes/install/
+src/misc_nodes/log/
