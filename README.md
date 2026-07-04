@@ -15,7 +15,6 @@ The repository focuses on the workspace `src/` tree: ArduPilot, Gazebo, ROS 2 br
 - `src/ros_gz`: ROS 2 Gazebo bridge packages.
 - `src/micro_ros_agent`: micro-ROS agent.
 - `src/sdformat_urdf`: SDFormat URDF conversion packages.
-- `src/multiagent_simulation`: custom multi-drone simulation package.
 - `src/misc_nodes`: custom helper nodes.
 
 ## Build
@@ -33,7 +32,7 @@ colcon build --packages-up-to ardupilot_gz_bringup
 ```bash
 cd ~/ardu_ws
 source install/setup.bash
-ros2 launch multiagent_simulation multiagent_simulation.launch.py
+ros2 launch ardupilot_gz_bringup iris_runway.launch.py
 ```
 
 The upstream dependency import file is preserved at `src/ardupilot_gz/ros2_gz.repos`, and nested `.gitmodules` files are kept so dependency origins remain documented.
