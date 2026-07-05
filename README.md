@@ -44,6 +44,9 @@ From the workspace root:
 ```bash
 cd ~/ardu_ws
 source /opt/ros/humble/setup.bash
+cd src/ardupilot
+./Tools/environment_install/install-prereqs-ubuntu.sh -y
+cd ../..
 rosdep update
 rosdep install --from-paths src --ignore-src -y
 colcon build --packages-up-to ardupilot_gz_bringup misc_nodes

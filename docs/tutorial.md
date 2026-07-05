@@ -38,6 +38,9 @@ source /opt/ros/humble/setup.bash
 Install dependencies for the packages already present in `src/`:
 
 ```bash
+cd src/ardupilot
+./Tools/environment_install/install-prereqs-ubuntu.sh -y
+cd ../..
 rosdep update
 rosdep install --from-paths src --ignore-src -y
 ```
