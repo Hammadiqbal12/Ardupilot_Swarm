@@ -13,7 +13,8 @@ Start with the official ArduPilot documentation:
 
 Use those pages to install system dependencies, configure ROS 2, install or
 build the Micro XRCE-DDS Agent, and understand the normal single-vehicle SITL
-flow.
+flow. The Micro XRCE-DDS Agent source/build folders are intentionally not kept
+in this repository.
 
 Do not repeat upstream commands that clone ArduPilot, `ardupilot_gz`,
 `ros_gz`, or other repositories into `src/`. This repository already includes

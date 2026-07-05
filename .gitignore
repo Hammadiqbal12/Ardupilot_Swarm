@@ -9,6 +9,20 @@ logs/
 *.ulg
 *.bag
 *.db3
+/eeprom.bin
+/mav.parm
+/mav_*.parm
+/mav.tlog
+/mav.tlog.raw
+/terrain/
+src/ardupilot/Tools/ros2/ardupilot_dds_tests/eeprom.bin
+src/ardupilot/Tools/ros2/ardupilot_dds_tests/mav.parm
+src/ardupilot/Tools/ros2/ardupilot_dds_tests/terrain/
+
+# Large downloaded archives and external generated tooling
+src/**/*.zip
+Micro-XRCE-DDS-Gen/
+src/micro_ros_agent/
 
 # Python generated files
 __pycache__/
@@ -21,14 +35,6 @@ __pycache__/
 /.idea/
 *~
 .DS_Store
-
-# Gradle / Java generated output
-Micro-XRCE-DDS-Gen/.gradle/
-Micro-XRCE-DDS-Gen/build/
-Micro-XRCE-DDS-Gen/install/
-Micro-XRCE-DDS-Gen/log/
-Micro-XRCE-DDS-Gen/thirdparty/IDL-Parser/.gradle/
-Micro-XRCE-DDS-Gen/thirdparty/IDL-Parser/build/
 
 # Package-local generated output
 src/ardupilot/build/

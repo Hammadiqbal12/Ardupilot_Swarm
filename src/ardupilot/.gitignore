@@ -37,6 +37,9 @@
 *.vrx
 *.zip
 !Tools/autotest/tilecache/**/*.zip
+Tools/autotest/tilecache/**/*.zip
+Tools/Frame_params/XPlane/*.zip
+modules/ChibiOS/ext/fatfs/documents/res/*.zip
 *~
 .*.swo
 .*.swp

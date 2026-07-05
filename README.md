@@ -31,8 +31,11 @@ Important packages:
 - `src/ardupilot_gz`: ArduPilot Gazebo bringup, descriptions, applications, and worlds.
 - `src/ardupilot_gazebo`: ArduPilot Gazebo plugin.
 - `src/ros_gz`: ROS 2 Gazebo bridge packages.
-- `src/micro_ros_agent`: Micro XRCE-DDS / micro-ROS agent source.
 - `src/misc_nodes`: helper nodes used by the workspace; build this package too.
+
+Micro XRCE-DDS Agent is expected to be installed by following the upstream
+ArduPilot ROS 2 instructions; its generated source/build folders are not tracked
+in this repository.
 
 ## Build
 
