@@ -1,5 +1,7 @@
 # ArduPilot Swarm ROS 2 Gazebo Workspace
 
+[![ArduPilot Swarm ROS 2 Gazebo demo](docs/assets/ardupilot-swarm-video-thumbnail.png)](https://www.youtube.com/watch?v=mojc7Xz_36E)
+
 This repository is a customized ROS 2 / Gazebo workspace based on the
 ArduPilot ROS 2 setup. It is meant for simulating multiple Iris drones with
 lidar in Gazebo, while keeping the standard ArduPilot ROS 2, SITL, DDS, and
@@ -138,7 +140,14 @@ with `iris_forest.launch.py`.
 A recorded setup demo showing the multi-drone simulation working and UAV control
 through QGroundControl is available here:
 
-[![ArduPilot Swarm ROS 2 Gazebo demo](https://img.youtube.com/vi/mojc7Xz_36E/0.jpg)](https://www.youtube.com/watch?v=mojc7Xz_36E)
+https://www.youtube.com/watch?v=mojc7Xz_36E
+
+## Working System Screenshot
+
+The screenshot below shows the swarm running in Gazebo with RViz visualizing the
+OctoMap output.
+
+![ArduPilot swarm Gazebo and RViz OctoMap screenshot](docs/assets/swarm-octomap-gazebo-rviz.png)
 
 ## Notes
 
