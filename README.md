@@ -32,6 +32,8 @@ Important packages:
 - `src/ardupilot_gazebo`: ArduPilot Gazebo plugin.
 - `src/ros_gz`: ROS 2 Gazebo bridge packages.
 - `src/misc_nodes`: helper nodes used by the workspace; build this package too.
+- `src/octomap_builder`: launches one OctoMap server per drone lidar stream and
+  merges the per-drone maps into one global OctoMap.
 
 Micro XRCE-DDS Agent is expected to be installed by following the upstream
 ArduPilot ROS 2 instructions; its generated source/build folders are not tracked
@@ -49,7 +51,7 @@ cd src/ardupilot
 cd ../..
 rosdep update
 rosdep install --from-paths src --ignore-src -y
-colcon build --packages-up-to ardupilot_gz_bringup misc_nodes
+colcon build --packages-up-to ardupilot_gz_bringup misc_nodes octomap_builder
 source install/setup.bash
 ```
 
@@ -102,6 +104,34 @@ ros2 launch ardupilot_gz_bringup iris_forest.launch.py \
   start_x:=-8.0 \
   x_spacing:=2.0
 ```
+
+## OctoMap Mapping
+
+The `octomap_builder` package can run an `octomap_server_node` for each Iris
+lidar topic and then merge those individual maps into one global map. The launch
+file subscribes to topics such as `/iris1/cloud_in`, `/iris2/cloud_in`, and
+publishes per-drone OctoMaps under each Iris namespace, plus a merged
+`/global_octomap_full`.
+
+Start the swarm first, then in another sourced terminal run:
+
+```bash
+ros2 launch octomap_builder multi_octomap_with_merger.launch.py vehicle_count:=5
+```
+
+Set `vehicle_count` to match the number of drones launched with
+`iris_forest.launch.py`.
+
+The `misc_nodes` package is also useful in this workflow because it helps create
+the needed transforms between each Iris odometry frame and the shared `map`
+frame.
+
+## Demo
+
+A recorded setup demo showing the multi-drone simulation working and UAV control
+through QGroundControl is available here:
+
+https://www.youtube.com/watch?v=mojc7Xz_36E
 
 ## Notes
 

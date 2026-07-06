@@ -47,10 +47,11 @@ rosdep install --from-paths src --ignore-src -y
 
 ## 3. Build the Workspace
 
-Build the Gazebo bringup stack and the local helper package:
+Build the Gazebo bringup stack, the local helper package, and the OctoMap
+mapping package:
 
 ```bash
-colcon build --packages-up-to ardupilot_gz_bringup misc_nodes
+colcon build --packages-up-to ardupilot_gz_bringup misc_nodes octomap_builder
 ```
 
 Source the workspace after the build:
@@ -117,12 +118,58 @@ Argument summary:
 - `lidar_dim`: `3` for 3D lidar or `2` for 2D lidar.
 - `use_gz_tf`: relay Gazebo TF into ROS 2 TF when set to `true`.
 
-## 7. Quick Checks
+## 7. Run Multi-Drone OctoMap Mapping
+
+The `octomap_builder` package is used after the swarm is running. It starts one
+`octomap_server_node` per drone and subscribes to each lidar point cloud topic:
+
+- `/iris1/cloud_in`
+- `/iris2/cloud_in`
+- `/iris3/cloud_in`
+- and so on up to the configured vehicle count
+
+Each drone gets an individual OctoMap topic under its own namespace, such as
+`/iris1/octomap_full`. The merger node also publishes one combined global map:
+
+- `/global_octomap_full`
+
+Launch the swarm first:
+
+```bash
+ros2 launch ardupilot_gz_bringup iris_forest.launch.py num_vehicles:=5
+```
+
+Then open a second terminal, source the workspace, and start the OctoMap nodes:
+
+```bash
+cd ~/ardu_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 launch octomap_builder multi_octomap_with_merger.launch.py vehicle_count:=5
+```
+
+Keep `vehicle_count` the same as `num_vehicles`. For example, if the swarm
+launch uses `num_vehicles:=8`, run the OctoMap launch with `vehicle_count:=8`.
+
+The `misc_nodes` package is helpful with this mapping setup because it can
+create the transforms between each Iris odometry frame and the shared `map`
+frame. Those transforms are needed so the per-drone lidar data and OctoMaps line
+up in the same global frame.
+
+## 8. Demo Video
+
+This video shows the setup running and demonstrates UAV control through
+QGroundControl:
+
+https://www.youtube.com/watch?v=mojc7Xz_36E
+
+## 9. Quick Checks
 
 Check that the package can be found:
 
 ```bash
 ros2 pkg prefix ardupilot_gz_bringup
+ros2 pkg prefix octomap_builder
 ```
 
 Check available launch arguments:
@@ -135,10 +182,11 @@ Run the bringup tests:
 
 ```bash
 colcon test --packages-select ardupilot_gz_bringup
+colcon test --packages-select octomap_builder
 colcon test-result --verbose
 ```
 
-## 8. Clean Runtime Processes
+## 10. Clean Runtime Processes
 
 If a launch is interrupted and ports remain busy, close old Gazebo, SITL,
 MAVProxy, and DDS agent processes before launching again.
