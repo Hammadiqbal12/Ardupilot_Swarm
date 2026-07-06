@@ -51,6 +51,7 @@ cd src/ardupilot
 cd ../..
 rosdep update
 rosdep install --from-paths src --ignore-src -y
+sudo apt install -y ros-humble-octomap ros-humble-octomap-msgs ros-humble-octomap-server
 colcon build --packages-up-to ardupilot_gz_bringup misc_nodes octomap_builder
 source install/setup.bash
 ```
@@ -113,25 +114,31 @@ file subscribes to topics such as `/iris1/cloud_in`, `/iris2/cloud_in`, and
 publishes per-drone OctoMaps under each Iris namespace, plus a merged
 `/global_octomap_full`.
 
-Start the swarm first, then in another sourced terminal run:
+Start the swarm first. Then open another sourced terminal and start the TF
+helpers from `misc_nodes`:
+
+```bash
+ros2 launch misc_nodes tf_tree.launch.py num_vehicles:=5
+```
+
+This creates the transform tree needed by the mapping pipeline, including
+`map -> irisN/odom` and `irisN/odom -> irisN/base_link` for each drone.
+
+In a third sourced terminal, start the OctoMap nodes:
 
 ```bash
 ros2 launch octomap_builder multi_octomap_with_merger.launch.py vehicle_count:=5
 ```
 
-Set `vehicle_count` to match the number of drones launched with
-`iris_forest.launch.py`.
-
-The `misc_nodes` package is also useful in this workflow because it helps create
-the needed transforms between each Iris odometry frame and the shared `map`
-frame.
+Set `num_vehicles` and `vehicle_count` to match the number of drones launched
+with `iris_forest.launch.py`.
 
 ## Demo
 
 A recorded setup demo showing the multi-drone simulation working and UAV control
 through QGroundControl is available here:
 
-https://www.youtube.com/watch?v=mojc7Xz_36E
+[![ArduPilot Swarm ROS 2 Gazebo demo](https://img.youtube.com/vi/mojc7Xz_36E/0.jpg)](https://www.youtube.com/watch?v=mojc7Xz_36E)
 
 ## Notes
 

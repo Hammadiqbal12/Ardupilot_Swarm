@@ -43,6 +43,7 @@ cd src/ardupilot
 cd ../..
 rosdep update
 rosdep install --from-paths src --ignore-src -y
+sudo apt install -y ros-humble-octomap ros-humble-octomap-msgs ros-humble-octomap-server
 ```
 
 ## 3. Build the Workspace
@@ -139,7 +140,22 @@ Launch the swarm first:
 ros2 launch ardupilot_gz_bringup iris_forest.launch.py num_vehicles:=5
 ```
 
-Then open a second terminal, source the workspace, and start the OctoMap nodes:
+Then open a second terminal, source the workspace, and start the TF helper
+nodes from `misc_nodes`:
+
+```bash
+cd ~/ardu_ws
+source /opt/ros/humble/setup.bash
+source install/setup.bash
+ros2 launch misc_nodes tf_tree.launch.py num_vehicles:=5
+```
+
+This launch creates the transform tree needed by the mapping pipeline:
+
+- static `map -> irisN/odom` transforms
+- dynamic `irisN/odom -> irisN/base_link` transforms from each drone odometry
+
+Then open a third terminal, source the workspace, and start the OctoMap nodes:
 
 ```bash
 cd ~/ardu_ws
@@ -148,8 +164,13 @@ source install/setup.bash
 ros2 launch octomap_builder multi_octomap_with_merger.launch.py vehicle_count:=5
 ```
 
-Keep `vehicle_count` the same as `num_vehicles`. For example, if the swarm
-launch uses `num_vehicles:=8`, run the OctoMap launch with `vehicle_count:=8`.
+Keep both mapping arguments aligned with the swarm size. For example, if the
+swarm launch uses `num_vehicles:=8`, run:
+
+```bash
+ros2 launch misc_nodes tf_tree.launch.py num_vehicles:=8
+ros2 launch octomap_builder multi_octomap_with_merger.launch.py vehicle_count:=8
+```
 
 The `misc_nodes` package is helpful with this mapping setup because it can
 create the transforms between each Iris odometry frame and the shared `map`
@@ -161,7 +182,7 @@ up in the same global frame.
 This video shows the setup running and demonstrates UAV control through
 QGroundControl:
 
-https://www.youtube.com/watch?v=mojc7Xz_36E
+[![ArduPilot Swarm ROS 2 Gazebo demo](https://img.youtube.com/vi/mojc7Xz_36E/0.jpg)](https://www.youtube.com/watch?v=mojc7Xz_36E)
 
 ## 9. Quick Checks
 
